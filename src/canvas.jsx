@@ -37,7 +37,7 @@ const buildData = (data) => {
 };
 
 const independence = (data) => {
-  let indSets =[];
+  let indSets = [];
   let { nodesOG, edgesOG } = data;
   let { nodes, edges } = data;
   let nodes2 = [];
@@ -115,12 +115,6 @@ const independence = (data) => {
         }
       }
       //console.log(nodes3);
-      /*
-      if (k < 5) {
-        passed = true;
-      } else break;
-      k++;
-      console.log(min.node, nodes3);*/
     } while (nodes3.length > 0);
     for (let i = 0; i < CI.length; i++) nodes2 = deleteNode(nodes2, CI[i]);
     for (let j = 0; j < CI.length; j++) {
@@ -135,10 +129,21 @@ const independence = (data) => {
         }
       }
     }
+    for (let i = 0; i < nodes2.length; i++)
+      nodes3.push({ id: nodes2[i].id, label: nodes2[i].label });
+    for (let i = 0; i < edges2.length; i++)
+      edges3.push({ from: edges2[i].from, to: edges2[i].to });
+
     indSets.push(CI);
-    console.log(indSets);
-    break;
+    console.log(CI, indSets);
+/*
+    if (k < 8) {
+      passed = true;
+    } else break;
+    k++;
+*/
   } while (nodes2.length > 0);
+  return indSets;
 };
 
 let clustered = false;
