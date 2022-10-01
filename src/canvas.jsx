@@ -37,6 +37,7 @@ const buildData = (data) => {
 };
 
 const independence = (data) => {
+  let indSets =[];
   let { nodesOG, edgesOG } = data;
   let { nodes, edges } = data;
   let nodes2 = [];
@@ -89,7 +90,7 @@ const independence = (data) => {
       CI.push(min.node);
 
       nodes3 = deleteNode(nodes3, min.node);
-      console.log(nodes3);
+      //console.log(nodes3);
       let nodesList = [];
       nodesList.push(min.node);
       for (let i = 0; i < edges3.length; i++) {
@@ -113,7 +114,7 @@ const independence = (data) => {
           }
         }
       }
-      console.log(nodes3);
+      //console.log(nodes3);
       /*
       if (k < 5) {
         passed = true;
@@ -124,7 +125,7 @@ const independence = (data) => {
     for (let i = 0; i < CI.length; i++) nodes2 = deleteNode(nodes2, CI[i]);
     for (let j = 0; j < CI.length; j++) {
       for (let i = 0; i < edges2.length; i++) {
-        console.log(i, edges2[i].from, CI[j], edges2[i].from == CI[j]);
+        //console.log(i, edges2[i].from, CI[j], edges2[i].from == CI[j]);
         if (edges2[i].from == CI[j]) {
           edges2 = deleteEdge(edges2, edges2[i].from, edges2[i].to);
           i--;
@@ -134,7 +135,8 @@ const independence = (data) => {
         }
       }
     }
-    console.log(CI);
+    indSets.push(CI);
+    console.log(indSets);
     break;
   } while (nodes2.length > 0);
 };
