@@ -124,7 +124,7 @@ const independence = (data) => {
     for (let i = 0; i < CI.length; i++) nodes2 = deleteNode(nodes2, CI[i]);
     for (let j = 0; j < CI.length; j++) {
       for (let i = 0; i < edges2.length; i++) {
-        console.log(i, edges2[i].from, CI[j], edges2[i].from == nodesList[j]);
+        console.log(i, edges2[i].from, CI[j], edges2[i].from == CI[j]);
         if (edges2[i].from == CI[j]) {
           edges2 = deleteEdge(edges2, edges2[i].from, edges2[i].to);
           i--;
