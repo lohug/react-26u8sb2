@@ -63,20 +63,23 @@ const independence = (data) => {
     let res = [];
     for (let i = 0; i < arr.length; i++)
       if (arr[i].from != id1 || arr[i].to != id2)
-        res.push({ from: arr[i].from, to: arr[i].tos });
+        res.push({ from: arr[i].from, to: arr[i].to });
     return res;
   };
+  let passed = false;
+  let k = 0;
   do {
     let CI = [];
     do {
       let degree = {};
+      for (let i = 0; i < nodes3.length; i++) degree[nodes3[i].id] = 0;
       for (let i = 0; i < edges3.length; i++) {
         if (degree[edges3[i].from]) degree[edges3[i].from]++;
         else degree[edges3[i].from] = 1;
         if (degree[edges3[i].to]) degree[edges3[i].to]++;
         else degree[edges3[i].to] = 1;
       }
-      let min = { node: -1, val: -1 };
+      let min = { node: -1, val: Infinity };
       for (const [key, value] of Object.entries(degree)) {
         if (min.val > value) {
           min.node = key;
@@ -86,23 +89,52 @@ const independence = (data) => {
       CI.push(min.node);
 
       nodes3 = deleteNode(nodes3, min.node);
-      console.log('AAAAAAAAAAA');
-      //console.log(nodes3);
-
+      console.log(nodes3);
+      let nodesList = [];
+      nodesList.push(min.node);
       for (let i = 0; i < edges3.length; i++) {
-        if (degree[edges3[i].from] === min.node) {
-          //nodes = deleteNode(nodes, edges[i].to);
-          edges3 = deleteEdge(edges3, edges3[i].from, edges3[i].to);
-        } else if (degree[edges3[i].to] === min.node) {
-          //nodes = deleteNode(nodes, edges[i].from);
-          edges3 = deleteEdge(edges3, edges3[i].from, edges3[i].to);
+        if (edges3[i].from == min.node) {
+          nodes3 = deleteNode(nodes3, edges3[i].to);
+          nodesList.push(edges3[i].to);
+        } else if (edges3[i].to == min.node) {
+          nodes3 = deleteNode(nodes3, edges3[i].from);
+          nodesList.push(edges3[i].from);
         }
       }
-
-      break;
-      console.log('BBBBBBBBBBBB');
+      for (let j = 0; j < nodesList.length; j++) {
+        for (let i = 0; i < edges3.length; i++) {
+          //console.log(i, edges3[i].from, nodesList[j], edges3[i].from == nodesList[j]);
+          if (edges3[i].from == nodesList[j]) {
+            edges3 = deleteEdge(edges3, edges3[i].from, edges3[i].to);
+            i--;
+          } else if (edges3[i].to == nodesList[j]) {
+            edges3 = deleteEdge(edges3, edges3[i].from, edges3[i].to);
+            i--;
+          }
+        }
+      }
+      console.log(nodes3);
+      /*
+      if (k < 5) {
+        passed = true;
+      } else break;
+      k++;
+      console.log(min.node, nodes3);*/
     } while (nodes3.length > 0);
     for (let i = 0; i < CI.length; i++) nodes2 = deleteNode(nodes2, CI[i]);
+    for (let j = 0; j < CI.length; j++) {
+      for (let i = 0; i < edges2.length; i++) {
+        console.log(i, edges2[i].from, CI[j], edges2[i].from == nodesList[j]);
+        if (edges2[i].from == CI[j]) {
+          edges2 = deleteEdge(edges2, edges2[i].from, edges2[i].to);
+          i--;
+        } else if (edges2[i].to == CI[j]) {
+          edges2 = deleteEdge(edges2, edges2[i].from, edges2[i].to);
+          i--;
+        }
+      }
+    }
+    console.log(CI);
     break;
   } while (nodes2.length > 0);
 };
