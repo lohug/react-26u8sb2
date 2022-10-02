@@ -27,7 +27,7 @@ const options = {
     arrows: {
       to: {
         enabled: false,
-      }
+      },
     },
     arrowStrikethrough: false,
     // font: '12px arial #ff0000',

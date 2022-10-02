@@ -136,7 +136,7 @@ const independence = (data) => {
 
     indSets.push(CI);
     console.log(CI, indSets);
-/*
+    /*
     if (k < 8) {
       passed = true;
     } else break;
@@ -173,9 +173,34 @@ export default function SimpleMenu() {
       { from: 4, to: 5 },
     ],
   };
-  let data = useMemo(() => buildData(graphData));
-  console.log('ASSSSDFASDFASDF');
   let res = independence(graphData);
+
+  let color = (data, CI) => {
+    let { nodes, edges } = data;
+    let colorArr = [];
+    for (let i = 0; i < CI.length; i++) {
+      const color = Math.floor(Math.random() * 16777215).toString(16);
+      colorArr.push(color);
+    }
+    for (let c = 0; c < nodes.length; c++) {
+      for (let i = 0; i < CI.length; i++) {
+        for (let j = 0; j < CI[i].length; j++) {
+          if (nodes[c].id == CI[i][j]) {
+            nodes[c].color = '#' + colorArr[i];
+          }
+        }
+      }
+    }
+    return { nodes, edges };
+  };
+
+  let newGraphData = buildData(graphData)
+  newGraphData = color(newGraphData, res);
+
+  console.log(newGraphData);
+  let data = useMemo(() => newGraphData);
+  console.log('ASSSSDFASDFASDF');
+
   // useEffect(() => {
   //   data = buildData(graphData);
   // }, []);
